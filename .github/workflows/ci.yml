@@ -69,7 +69,9 @@ jobs:
     steps:
       - uses: satackey/action-docker-layer-caching@v0.0.8
         continue-on-error: true
-      - run: echo "${{ github.run_number }}#$${GITHUB_SHA::8}" > .build-number
+      - run: echo "${{ github.run_number }}#${GITHUB_SHA::8}" > .build-number
+      - run: cat .build-number
+      - run: ls -la
       - run: docker build -t smartbear/git-en-boite:latest .
       - run: docker save smartbear/git-en-boite:latest > docker-image.tar
       - uses: actions/upload-artifact@v2
@@ -80,7 +82,7 @@ jobs:
   publish-image:
     name: Publish Docker image to smartbear/git-en-boite<git-sha>
     runs-on: ubuntu-latest
-    needs: [build-image]
+    needs: [test-core, test-local-git, test-app, test-web, build-image]
     if: github.event_name == 'push'
 
     steps:
