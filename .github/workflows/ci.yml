@@ -113,8 +113,6 @@ jobs:
       ]
     steps:
       - uses: actions/checkout@v2
-      - uses: satackey/action-docker-layer-caching@v0.0.8
-        continue-on-error: true
       - run: echo "${{ github.run_number }}#${GITHUB_SHA::8}" > .build-number
       - run: docker build -t smartbear/git-en-boite:latest .
       - run: docker network create git-en-boite
