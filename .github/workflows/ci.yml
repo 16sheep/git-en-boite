@@ -128,6 +128,5 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_KEY }}
-      - run: docker tag smartbear/git-en-boite:latest
-      - run: docker tag smartbear/git-en-boite:${{ github.sha }}
-      - run: docker push smartbear/git-en-boite
+      - run: docker tag smartbear/git-en-boite:latest smartbear/git-en-boite:${{ github.sha }}
+      - run: docker push smartbear/git-en-boite:${{ github.sha }}
