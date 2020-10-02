@@ -63,7 +63,7 @@ jobs:
       - run: yarn web test
 
   build-test-publish-image:
-    name: Build Docker image
+    name: Build & publish Docker image
     runs-on: ubuntu-latest
     needs: [test-core, test-local-git, test-app, test-web]
     steps:
@@ -75,7 +75,7 @@ jobs:
       - run: docker network create git-en-boite
       - run: docker run --detach --network=git-en-boite --name postgres -h postgres -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=git-en-boite-test postgres:12.2
       - run: docker run --detach --network=git-en-boite --name redis -h redis redis:5.0.9
-      - run: docker run --network=git-en-boite -e DATABASE_URL=postgres://postgres@postgres/git-en-boite-test -e GIT_ROOT=/git-repos -e REDIS_URL=redis://redis:6379 --workdir /app -i -t smartbear/git-en-boite:latest yarn test
+      - run: docker run --network=git-en-boite -e DATABASE_URL=postgres://postgres@postgres/git-en-boite-test -e GIT_ROOT=/git-repos -e REDIS_URL=redis://redis:6379 --workdir /app smartbear/git-en-boite:latest yarn test
       - name: Only continue if this was a push to the main branch
         if: github.event_name != 'push'
         run: exit 1
