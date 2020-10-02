@@ -70,7 +70,7 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.8
         continue-on-error: true
       - run: echo "${{ github.run_number }}#$${GITHUB_SHA::8}" > .build-number
-      - run: docker build -t smartbear/git-en-boite:latest
+      - run: docker build -t smartbear/git-en-boite:latest .
       - run: docker save smartbear/git-en-boite:latest > docker-image.tar
       - uses: actions/upload-artifact@v2
         with:
